@@ -1,0 +1,41 @@
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> ans;
+        int n=nums.size();
+        sort(nums.begin(),nums.end());
+        for(int i=0;i<n;i++)
+        {
+            if(i>0 && nums[i]==nums[i-1]) continue;// i Fix kr diya j and k ko agy peechy krty jao
+
+            int j=i+1;
+            int k=n-1;
+
+            while(j<k)
+            {
+                int sum=nums[i]+nums[j]+nums[k];
+                if(sum<0)
+                j++; // kyonki i fix hai
+                else if(sum>0)
+                k--;
+                else //means 0 ho gy sum trplet store kro
+                {
+                    vector<int> temp={nums[i],nums[j],nums[k]};
+                    ans.push_back(temp);
+                    j++;
+                    k--;
+                    while(j<k && nums[j]==nums[j-1]) j++; //UNIQUE HI AAN GY
+                    while(j<k && nums[k]==nums[k+1]) k--; // UNIQUE HI AAN GY {-2,-,2,-2,-1,-1,-1,0,0,0,2,2,2}
+                }
+
+            }
+
+        }
+
+        return ans;
+
+
+
+        return ans;
+    }
+};
