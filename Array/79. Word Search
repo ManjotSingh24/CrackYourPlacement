@@ -1,0 +1,64 @@
+class Solution {
+public:
+
+    vector<vector<int>> dir={{1,0},{-1,0},{0,1},{0,-1}};
+    bool fun(int i,int j,vector<vector<char>>& board,int idx ,string word)
+    {
+        int n=board.size();
+        int m=board[0].size();
+
+        //sary aplhabets mil gy ny
+        if(idx==word.size())
+        return true;
+
+        //base conditions
+        if(i<0 || j<0 || i>=n || j>=m || board[i][j]=='$')
+        return false;
+
+        if(board[i][j]!=word[idx])
+        return false;
+
+        // means match kar gya
+        //hun aas pass adjecent alya nu vekho
+
+        //backtracking dy tym kaam auga
+        char temp=board[i][j];
+        board[i][j]='$';
+
+        for(auto &directions : dir)
+        {
+            int neighbour_i=i+directions[0];
+            int neighbour_j=j+directions[1];
+            //reursive call
+            if(fun(neighbour_i,neighbour_j,board,idx+1,word))
+            return true;
+        }
+
+        //backtracking
+        board[i][j]=temp;
+
+        // nhi milya yaar 😥 tera word
+        return false;
+
+
+    }
+
+
+
+    bool exist(vector<vector<char>>& board, string word) {
+        int n=board.size();
+        int m=board[0].size();
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                //jidron word da pela alphabet milya
+                if(board[i][j]==word[0] && fun(i,j,board,0,word))
+                return true;
+
+            }
+        }
+
+        return false;
+    }
+};
