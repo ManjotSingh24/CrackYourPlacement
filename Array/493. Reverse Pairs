@@ -1,0 +1,73 @@
+class Solution {
+public:
+
+    int merge(vector<int>&nums,int low,int mid,int high)
+    {
+        int count=0;
+        int j= mid+1; // first element of the right half
+
+        for(int i=low;i<=mid;i++)
+        {
+            while(j<=high && nums[i]> (2*(long)nums[j]))
+            j++;
+            count+=(j-(mid+1));
+        }
+
+        vector<int> temp;
+
+        int left=low; // first index of left array
+        int right=mid+1; // second array ka first index
+
+        while(left<=mid && right<=high)
+        {
+            if(nums[left]<=nums[right])
+            {
+                temp.push_back(nums[left]);
+                left++;
+            }
+            else
+            {
+                temp.push_back(nums[right]);
+                right++;
+            }
+
+        }// one of the array gets exhausted
+
+        while(left<=mid)
+        {
+            temp.push_back(nums[left]);
+            left++;
+        }
+
+        while(right<=high)
+        {
+            temp.push_back(nums[right]);
+            right++;
+        }
+
+        //temp to vapis pao 
+
+        for(int i=low;i<=high;i++)
+        {
+            nums[i]=temp[i-low];
+        }
+        return count;
+    }
+
+    int mergesort(vector<int>& nums,int low,int high)
+    {
+
+        if(low>=high) return 0;
+        int mid=(low+high)/2;
+        int cnt=mergesort(nums,low,mid);
+        cnt+=mergesort(nums,mid+1,high);
+        cnt+=merge(nums,low,mid,high);
+        return cnt;
+
+    }
+
+    int reversePairs(vector<int>& nums) {
+        int n=nums.size();
+        return mergesort(nums,0,n-1);
+    }
+};
