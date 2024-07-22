@@ -1,0 +1,70 @@
+class Solution {
+public:
+// every open paranthesis is closed
+/*
+2*n parenthesis
+backtracking is recusion with DO EXPLORE AND UNDO  
+while i<2*n usky baad jo string bni usko push lo ki valid paren ho ky nhi 
+hun valid parenthesis vala q na kri solve kyonki is ch sir ik typ da hi brackkt hai so us e
+COUNTE METHOD O(n)time and O(1) space
+                    " "
+            "("             ")"
+         "((" "()"     ")("    "))"  -> O(2 power 2n) *O(2n)forisvalid space O(depth of recusion spaces O(2n))
+*/
+
+    vector<string> ans;
+
+    bool isValid(string &curr)
+    {
+        int counter=0;
+
+        for(char &c:curr)
+        {
+        if(c==')')
+        counter--;
+        else
+        counter++;
+        if(counter<0) //VERY VERY IMP LINE iska mtalb phy close bracket a gya
+        return false;
+        }
+
+        return counter==0;
+
+    }
+
+    void fun(string curr,int n,int open,int close)
+    {
+
+        // is if ky bad valid paren chk krny di v lod ni
+        if(open>n || close>n || open<close) // 3rd condition kisi bhi valid parenthisis mein kisi bhi time py openbraker>=close
+        return;
+
+
+        //base case
+        if(curr.length()==2*n) //2*n parehtheses pa ty ny
+        {
+            //if(isValid(curr)==true)
+            //{
+            ans.push_back(curr);
+            //}
+            return;
+        }
+
+        curr.push_back('(');
+        fun(curr,n,open+1,close);
+        curr.pop_back();
+
+
+        curr.push_back(')');
+        fun(curr,n,open,close+1);
+        curr.pop_back();
+
+    }
+
+    vector<string> generateParenthesis(int n) {
+        
+        string curr="";
+        fun(curr,n,0,0);
+        return ans;
+    }
+};
