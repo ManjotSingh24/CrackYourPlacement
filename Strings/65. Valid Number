@@ -1,0 +1,105 @@
+class Solution {
+public:
+/*
+1. digits -> flag that we have seen a digit
+2. Minus/Plus -> count should be atmost 2   +6e-1
+                 end  apy na ae
+                 if coming in between and e is not before +6e9
+3. Dot e.  .7.  ..  are invalid   (. e to pely ayegi)
+4. e/E   start with or end woth e/E  and count of e should be one
+
+FALSE HONY DIYA SARI CONDITIONS LIKH DO G
+
+*/
+
+    bool isNumber(string s) {
+        
+
+        int n=s.length();
+        
+        bool digitseen=false;
+        bool eseen=false;
+        bool dotseen=false;
+        int minuspluscount=0;
+
+        for(int i=0;i<s.size();i++)
+        {
+            char c= s[i];
+
+            //digit
+            if(isdigit(c)==true)
+            digitseen=true;
+
+            else if(c=='+' || c=='-')
+            {
+                // kya ye third time ta nhi encounter ho rea
+                if(minuspluscount==2)
+                return false;
+
+                // kya ye end ty ta nhi a rea
+                if(i==n-1)
+                return false;
+
+                // if coming inbetweeen pala e hona chhifda hai g
+                if(i>0 && (s[i-1]!='e' && s[i-1]!='E' )) //means inbetween hega ty edy to pel na ta e hega (and ) na tan E hega
+                return false;
+
+                minuspluscount++;
+
+
+            }
+
+            // DOT
+            else if(c=='.')
+            {
+                // is sy phly dot tan nhi ayi
+                if(dotseen==true)
+                return false;
+
+                // . hmesha e to pela ayegi
+                if(eseen==true)
+                return false;
+
+                // sirf dot hai lekin koi digit  nhi hai and sara string traverse kr rea digit nhi hai
+                if(i==n-1 && digitseen==false)
+                return false;
+
+                dotseen=true;
+
+            }
+
+            // E/e
+            else if(c=='e' || c=='E')
+            {
+                // 1 to jada e na hon
+                if(eseen==true)
+                return false;
+
+                // e last ch nhi ayega
+                if(i==n-1)
+                return false;
+
+                // e to pely atleast 1 digit hona chahida hai -e3
+                if(digitseen==false)
+                return false;
+
+                eseen=true;
+
+            }
+
+            else //koi v hor digit is not allowed
+            {
+                return false;
+            }
+
+
+        }
+
+        // koi v condition voilate nhi kiti
+        return true;
+
+
+
+
+    }
+};
