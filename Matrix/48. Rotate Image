@@ -1,0 +1,24 @@
+class Solution {
+public:
+    void rotate(vector<vector<int>>& matrix) {
+        //transpose
+        int n= matrix.size();
+        int m=matrix[0].size();
+        for(int i=0;i<n;i++) //2nd last row 
+        {
+            for(int j=i;j<m;j++)
+            {
+                swap(matrix[i][j],matrix[j][i]);
+            }
+        }
+
+        //reverse the rows
+
+        for(int i=0;i<n;i++)
+        {
+            //reverse the array that is the row
+            reverse(matrix[i].begin(),matrix[i].end());
+        }
+
+    }
+};
