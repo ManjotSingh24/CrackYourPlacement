@@ -1,0 +1,47 @@
+class Solution {
+public:
+
+/*
+see 2 pointers hegy ny i j s[i]==s[j] ok a sb but diff ty 2 choices hegi a ki kinu delete kra mein 
+*/
+
+    bool ispalin(string s,int i,int j)
+    {
+        while(i<j)
+        {
+            if(s[i]==s[j])
+            {
+            i++;
+            j--;
+            }
+            else
+            return false;
+        }
+        
+        return true;
+    }
+
+
+
+    bool validPalindrome(string s) {
+        int i=0;
+        int j=s.length()-1;
+
+        while(i<j)
+        {
+            if(s[i]==s[j])
+            {
+            i++;
+            j--;
+            }
+            else
+            {
+            return (ispalin(s,1+i,j) || ispalin(s,i,j-1)); // ethy pre post naal pnga na lo ++i or i++ kyonki oho i and 
+            //j di value pury funtion ch change kr ry ny sanu sirf osi function ch value hcange krni a
+            }
+        }
+
+        //else ik vari v ni aya means palin hi si pela to hi
+        return true;  
+    }
+};
