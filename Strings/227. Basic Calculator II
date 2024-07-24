@@ -1,0 +1,74 @@
+class Solution {
+public:
+
+/*
+The integer division should truncate toward zero.  -> floor
+expression hai -> STACK
+* and / sath sath krengy result puc h krty jaegy and last mein sari resulta stack ky add kr dengy
+multiplication (*) and (\) operations would always have higher precedence than addition (+) and subtraction (-)
+If the current operation is addition (+) or subtraction (-), then the expression is evaluated based on the precedence of the next operation.
+so keep currchar and last operation variables
+
+*/
+
+    int calculate(string s) {
+        
+        int n=s.length();
+
+        int digit=0;
+        char lastoperation='+';
+
+        //base
+        if(n==0)
+        return 0;
+
+        stack<int>stk;
+
+
+        for(int i=0;i<n;i++)
+        {
+            char c= s[i];
+           if(isdigit(c))
+           {
+            digit=(digit*10) +(c-'0');
+           }
+
+                // digit nhi hai kyonki uper if execute nhi hoya
+                // digit and space dono nhi hai
+            if( (!isdigit(c) && !iswspace(c) )|| i==n-1)
+            {
+                if(lastoperation=='-')
+                stk.push(-digit);
+                else if(lastoperation=='+')
+                stk.push(digit);
+                else if(lastoperation=='*')
+                {
+                    int stktop=stk.top();
+                    stk.pop();
+                    stk.push(stktop*digit);
+                }
+                else if(lastoperation == '/')
+                {
+                    int stktop=stk.top();
+                    stk.pop();
+                    stk.push(stktop/digit);
+                }
+                digit=0;
+                lastoperation=c;
+            }
+
+        }
+
+
+        // addition and subtractions stack dy last ch hi evaluate krungy
+        int res=0;
+        while(stk.size() != 0)
+        {
+            res+=stk.top();
+            stk.pop();
+        }
+
+        return res;
+
+    }
+};
