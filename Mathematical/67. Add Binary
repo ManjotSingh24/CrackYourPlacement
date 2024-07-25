@@ -1,0 +1,44 @@
+class Solution {
+public:
+
+/*
+sum= (num1+num2)%2;
+carry  (num1+num2)/2;
+i j pointer use kityy a
+
+*/
+    string addBinary(string a, string b) {
+        string ans;
+        int n=a.length();
+        int m=b.length();
+
+        int carry=0;
+        int sum=0;
+        int i=n-1;
+        int j=m-1;
+
+        while(i>=0 || j>=0 || carry!=0)
+        {
+
+            int num1=0;
+            if(i>=0 && a[i]=='1')
+            num1=1;
+
+            int num2=0;
+            if(j>=0 && b[j]=='1')
+            num2=1;
+
+            sum=(num2+num1+carry)%2;
+            carry=(num2+num1+carry)/2;
+
+            i--;
+            j--;
+
+            ans= to_string(sum) + ans;
+
+        }
+
+        return ans;
+
+    }
+};
