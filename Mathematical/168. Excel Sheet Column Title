@@ -1,0 +1,27 @@
+class Solution {
+public:
+
+/*
+A-> ko 1 bol ra hai 
+lakin jb ham remainder nikangy na to 1+A -> 1+66-> B 67 ayega but hmy a chiye so 
+(remainder-1)+'A' krangy
+
+corner case when multiple of 26  --> 25+ A -> @
+so -1 nhi kr sakdy sirf
+
+*/
+    string convertToTitle(int columnNumber) {
+        string s;
+        while(columnNumber)
+        {
+            columnNumber--;
+
+            int remainder =columnNumber%26;
+            char c= char(remainder+'A');
+            s=c+s;
+            columnNumber/=26;
+            
+        }
+        return s;
+    }
+};
