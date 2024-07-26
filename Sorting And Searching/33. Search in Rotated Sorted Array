@@ -1,0 +1,67 @@
+class Solution {
+public:
+
+    /*
+
+    T -> Log base 2 n
+    S -> O(1) 
+
+    Distinct
+    Search krna hai g & Sorted property array --> Binary hi use hoga shayad
+    by comparing we cannot say ki right ya left half ko eliminate krdo 
+    1. so first find ki konsa half sorted hai udar sy observations lgao
+    [4,5,6,7,0,1,2], target =0
+    2. mid =7 
+    kya target mid ky equal --> NO
+    kya 7<2 no means left half is sorted 
+    3. again pucho sorted sy ab pucho ky a target lies between 4 and 6 --> no 
+    low = mid+1 
+    repeat sorted konsa hai mid ky left ya right ala
+
+     NOTE -> Gurenteed that one of them would always be sorted
+
+    */
+
+    int search(vector<int>& nums, int target) {
+        int n=nums.size();
+        int low=0;
+        int high=n-1;
+
+        while(low<=high)
+        {
+          int mid=(low+high)/2;
+            // kya mid to nhi vo khushnaseeb
+            if(nums[mid]==target)
+            return mid;
+
+            // investigate which half is sorted
+
+            //LEFT TU sorted hai kya ?
+            if(nums[mid]>=nums[low])
+            {
+                // kya vo isi sorted half mein hai ?
+                if(nums[low]<=target && nums[mid]>=target)
+                // if yes then eliminate the right half
+                high=mid-1;
+                else
+                // eliminate the left ahlf kyonki milato hai nhi is sorted half mein :{
+                low=mid+1;
+            }
+
+            // RIGHT KYA to sorted hai ?
+            else
+            {
+                if(nums[mid]<=target  && target<=nums[high])
+                // if yes then right mein hi hoga pka  ELIMINATE the left
+                low=mid+1;
+                else
+                high=mid-1;
+                
+            }
+
+        }
+
+        return -1;
+
+    }
+};
