@@ -1,0 +1,58 @@
+class Solution
+{
+    public:
+    //Function to find the smallest positive number missing from the array.
+    /*
+    dont care for -ve no.
+    dont care for no. lerger then n
+    dont care if that no. repeats
+    
+    INDEX KY SATH KHELO
+    
+    [  -3    4    3    1     8    2]
+    
+    
+    
+    
+       0    1    2     3    4    5
+    [  1    2    3     4   -3    8 ]
+    
+    
+    */
+    int missingNumber(int nums[], int n) 
+    { 
+        // Your code here
+        for(int i=0;i<n;i++)
+        { 
+            
+            int element=nums[i];
+            int chair=element-1;
+            
+            
+            if(element>0 && element <=n)
+            {
+            
+            
+                    if(element != nums[chair]) /// elemnt apni chair ty nhi biatha
+                    {
+                    swap(nums[i],nums[chair]);//swap(element,nums[chiar])
+                    i--;
+                    }
+            
+            }
+        }
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            
+            
+         if(nums[i]!=i+1)
+         return i+1;
+            
+        }
+        
+        return n+1; // no one is missing eg. [ 1  2  3  4  5]
+        
+    } 
+};
