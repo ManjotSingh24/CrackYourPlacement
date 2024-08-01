@@ -1,0 +1,57 @@
+int fun(vector<int> &stalls,int n,int k,int d)
+    {
+        int count=1;//huny ik hi cow a 
+        int lastpos=stalls[0];// or oh v stall no. first ty
+        
+        for(int i=1;i<n;i++)
+        {
+            if(stalls[i]-lastpos>=d)
+            {
+                count++;
+                lastpos=stalls[i];
+                if(count==k)
+                break;
+            }
+        }
+        
+        return count;
+        
+    }
+
+
+    int solve(int n, int k, vector<int> &stalls) {
+    
+        // Write your code here
+        /*
+        min or max or  max to min --> binary search
+        1. min diff is always between conceutive stalls that why sort kita c
+        2. min differenec between cows can be 1
+        3. max diff acan be the differenec between the first and last stall here two cows can be put n
+        */
+        
+        sort(stalls.begin(),stalls.end());   //⭐  NLOG  N
+        int low=1;
+        int high=stalls[n-1]-stalls[0];
+        int ans=0;
+        //linear search
+        while(low<=high)  // _> :❤️  binary so log (high) * O(n) becuz of that fun function
+        {
+            
+            int mid=(low+high)/2; 
+            int cntofcows=fun(stalls,n,k,mid);
+            if(cntofcows==k)
+            {
+                //may be this is the ans
+                ans=mid;
+                //but i need maxdistance between cows so go to right
+                
+                low=mid+1;
+            }
+            else
+            // yaar pher min distance between coes ght ado may be 5 dis ty nhi sari place hoi 2 ty place hoja
+            high=mid-1;
+            
+            
+        }
+        return ans;// return high due to PLOARITY
+    }
