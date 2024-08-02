@@ -1,0 +1,62 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+
+/*
+❤️‍🔥 extreme neive ho gya map <node*,int> mp ki ehe adress nod ed apelan kidy vekhya
+T C -> O(n* 2* (log n)<-cuz of map inserion and finding)
+S C --> O(n) cuz of map 
+
+🐦‍🔥 IN A LOOP intution fast is moving towards slow by 2 ans slow is moving away from fast by 1 
+at each iteration they are getting closer by 1 node so at a time they will collide and when they coolide means loop exists
+
+1st ieration d distance between them
+2nd iteration d-1
+mth iteration 0 distance
+
+❤️we can move fast by 3 but then 0 distance aye na aye tbabhi t o ek ko 2 sy ik ko 1 sy taki diff 1 sy ghtna jae
+and at the end 0 to jrrur hoga na distanec and jrrur collidehongy its gurentee
+
+T C O(n)
+
+*/
+
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        
+        ListNode* fast=head;
+        ListNode* slow=head;
+
+        //corner cases
+        //no node
+
+        if(head==NULL)
+        return 0;
+
+        // one node
+        if(head->next==NULL)
+        return 0;
+
+        // hair and tortoise method
+        while(fast!=NULL && fast->next!=NULL)
+        {
+            fast=fast->next->next;
+            slow=slow->next;
+
+            if(slow==fast)
+            return true;
+
+        }
+
+
+        // while loop to bhar ari means kithy node null ari so loop nhi hai mens linear data structure
+        return 0;
+
+    }
+};
