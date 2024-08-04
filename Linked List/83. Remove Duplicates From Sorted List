@@ -1,0 +1,46 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+
+/*
+1. it is a linked list so you can modify  the pointers
+2. it is sorted so duplicate elements are adjecent
+*/
+
+class Solution {
+public:
+    ListNode* deleteDuplicates(ListNode* head) {
+
+        if(head==NULL || head->next==NULL) // single node or no node
+        return head;
+
+        ListNode* prev=head;
+        ListNode* curr=head->next;
+
+        while(curr!=NULL)
+        {
+            if(prev->val==curr->val) // same hai tan curr node bhjai rkho
+            {
+            curr=curr->next;
+            continue;
+            }
+
+            prev->next=curr;
+            prev=curr;
+            curr=curr->next;
+
+        }
+        
+        //imp line
+        prev->next=NULL;
+
+        return head;
+    }
+};
