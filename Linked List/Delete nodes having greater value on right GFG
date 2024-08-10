@@ -1,0 +1,60 @@
+Node* reverse(Node *head)
+{
+    
+    // single node no node ala chkr kdy ana hi nhi
+    if(head->next==NULL)
+    return head;
+    
+    
+    Node *curr= reverse(head->next); //future node da head
+    head->next->next=head;
+    head->next=NULL;
+    return curr; // ehe node jai jaegi last to leke first tk and return hoju gi as the head of reversed linked list
+    
+}
+
+
+
+class Solution
+{
+    public:
+    Node *compute(Node *head)
+    {
+        // your code goes here
+        // peecho traverse kro largest node rakho agar curr node is less then largest node delete curr node
+        head= reverse(head);
+        
+        
+        int maxy=head->data;
+        
+        Node* prev=head;
+        Node* curr=head->next;
+        
+        
+        
+        
+        while(curr)
+        {
+            if(curr->data<maxy)
+            {
+                //delete curr node
+                prev->next=curr->next; //delete krdy hoy prev nod esame rhugi next pointer change hoega but curr nod edelete hori so oho next ty ponch juga curr pointer
+                curr=prev->next;
+            }
+            else
+            {
+                //update maxy
+                maxy=curr->data;
+                prev=curr;
+                curr=curr->next;
+            }
+        }
+        
+        
+        
+        
+        Node *original = reverse(head);
+        return original;
+    }
+    
+};
