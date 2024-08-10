@@ -1,0 +1,77 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        
+        // find the larger size linked list and usky pointer ko  same level verticle
+        int length1=1,length2=1;
+        ListNode* temp1=headA;
+        ListNode* temp2=headB;
+        
+        // linked list 1 ki length mapi
+        while(temp1!=NULL)
+        {
+            length1++;
+            temp1=temp1->next;
+        }
+
+        // linked list 2 ki length mapi
+        while(temp2!=NULL)
+        {
+            length2++;
+            temp2=temp2->next;
+        }
+
+
+        //reset the pointers
+        temp1=headA;
+        temp2=headB;
+
+        // length dekho kiski bdi hai
+        if(length1>length2)
+        {
+            // temp1 ky pointer ko utna agy kro
+            int difference=length1-length2;
+            //make pointer 1 to that same verticle level of that o pointer two
+            while(difference--)
+            {
+                temp1=temp1->next;
+            }
+        }
+        else
+        {
+            int difference=length2-length1;
+            while(difference--)
+            {
+                temp2=temp2->next;
+            }
+
+        }
+
+        //now they are on the same verticle level and hun kathy ena nu ay krdy jao
+        //CORNER CASE when the length of any one of the node is 1 then that node is the intersection node
+        // and now the pointer sare on that nd eonly
+
+        while(temp1!=NULL)
+        {
+            //holi holi vandy jao
+            if(temp1==temp2)
+            return temp1;
+            temp1=temp1->next;
+            temp2=temp2->next;
+
+        }
+        return NULL;
+
+
+
+
+    }
+};
