@@ -1,0 +1,34 @@
+class Solution {
+public:
+    ListNode* agyy;
+    bool recur(ListNode *tail)
+    {
+        // base case for recusive call jo tail poointer kar rea
+        if(tail==NULL)
+        return true;
+
+        bool ans=recur(tail->next);
+
+        if(ans==false) /// peecho hi nhi palin agy value chk krny da koi faeda nhi g
+        return ans;
+
+        if(agyy->val!=tail->val)
+        return false;
+
+        agyy=agyy->next;
+
+        return true;
+
+    }
+
+    bool isPalindrome(ListNode* head) {
+
+        // single node always palindrome
+        if(head==NULL || head->next==NULL)
+        return true;
+
+        agyy=head;
+        return recur(head);
+    }
+
+};
