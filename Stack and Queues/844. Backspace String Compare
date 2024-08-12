@@ -1,0 +1,32 @@
+class Solution {
+public:
+
+    string fun(string s)
+    {
+        string p="";
+        stack<char>stk;
+        for(char c:s)
+        {
+            if(c=='#' and !stk.empty())
+            stk.pop();
+            else
+            {
+                if(c!='#')
+                stk.push(c);
+            }
+        }
+
+        while(!stk.empty())
+        {
+            p.push_back(stk.top());
+            stk.pop();
+        }
+        //reverse krny di lod nhi hegi kyonki dono hi string naal same kaam ho rea
+
+        return p;
+    }
+
+    bool backspaceCompare(string s, string t) {
+        return fun(s)==fun(t);
+    }
+};
