@@ -1,0 +1,90 @@
+class MyStack {
+public:
+    /*
+    push1 
+Q1 -> 
+Q2 ->2
+
+kali Q1
+
+swapQ1,Q2
+Q1 ->1
+Q2 ->
+
+push 2
+Q1 ->1
+Q2 ->2
+
+khali karo  Q1 nu
+Q1 ->
+Q2 ->2,1
+
+swap Q1,Q2
+Q1 ->2,1
+Q2 ->
+
+push 3
+Q1 ->2,1
+Q2 ->3
+
+khali Q1
+Q1 ->
+Q2 ->3,2,1
+
+swap Q2,Q1
+Q1 ->2=3,2,1
+Q2 ->
+
+pop ty empty ty front from --> Q1
+    */
+    //USING TWO QUEUES but push operation thoda mehenga hai --> O(n)
+    // Q2 use kar ea to  make Q1 behave like a stack \U0001f426‍\U0001f525
+    // baki top ty pop dono hi O(1) from queue Q1
+    // empty -> Q1.empty chk krangy kyonki main tan ush to baad asi Q2 ch pary hai elemnts
+    // at the end mein apny sary elemnts Q1 ch hi pa rea swap Q2 ty Q1 karky
+    MyStack() {
+        
+    }
+    queue<int>Q1,Q2;
+    // MUSHKIL PART
+    void push(int x) {
+        // Q2 ch ik elment paya
+        Q2.push(x);
+
+        //Q1 khali kardo
+        while(!Q1.empty())
+        {
+            Q2.push(Q1.front());
+            Q1.pop();
+        }
+        //is tym Q2 ch sab kuj hega
+
+        swap(Q1,Q2);
+        // hun Q1 ch sab kuj hega ty Q2 khali hega
+    }
+    //EASY
+        int pop() {
+        int x=Q1.front();
+        Q1.pop(); //elements hai hi sary Q1 ch so ohdy hcon hi pop hega sab kuj
+        return x;
+    }
+    //EASY
+    int top() {
+        return Q1.front();
+    }
+   //EASY 
+    bool empty() {
+        // at the end mein any sary elmets Q1 ch hi pa rea so q1 da empty chk karlo
+        //at the end of every push operation Q1 mein emty karky Q2 ch cheeza p adenda but pher swap kart ac
+        return Q1.empty();
+    }
+};
+
+/**
+ * Your MyStack object will be instantiated and called as such:
+ * MyStack* obj = new MyStack();
+ * obj->push(x);
+ * int param_2 = obj->pop();
+ * int param_3 = obj->top();
+ * bool param_4 = obj->empty();
+ */
