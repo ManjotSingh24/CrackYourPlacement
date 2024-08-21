@@ -1,0 +1,58 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+/*
+subroot and root dy subtree da address differenet hai ehe subroot diff hai
+*/
+
+    bool isSameTree(TreeNode* p, TreeNode* q) {
+
+        if(p==NULL || q==NULL) // ena cho ik v null haiga then chcek kro kii duja v null hega ku nhi agr nhi then return false;
+        return p==q;
+
+        if(p->val !=q->val) //value hi same nhi hai g
+        return false;
+        
+        bool a=true;
+        a=a&&(isSameTree(p->left,q->left));
+        a=a&&(isSameTree(p->right,q->right));
+
+        return a;
+    }
+
+    bool isSubtree(TreeNode* root, TreeNode* subRoot) { 
+        // dfs lao g
+        stack<TreeNode*> stk;
+        stk.push(root);
+
+        bool flg=false;
+
+        while(!stk.empty())
+        {
+            TreeNode* curr=stk.top();
+            stk.pop();
+
+            if(curr->left) stk.push(curr->left);
+            if(curr->right) stk.push(curr->right);
+
+            if(curr->val==subRoot->val)
+            {
+                flg=isSameTree(curr,subRoot);
+                if(flg)
+                return flg;
+            }
+        }
+        return false;//labya nhi
+
+    }
+};
