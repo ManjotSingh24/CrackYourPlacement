@@ -1,0 +1,46 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+    // BST di property use kro always root left < rooot < root-> right so 
+    // \U0001f426‍\U0001f525\U0001f426‍\U0001f525 bst ty inorder likhy atan sorted order ch anda
+    //1. inorder likh ky array ch apdo then calculate kro O(n)<-- space
+    //2. ya phir prev element store karo dy ohny curr h minus karky min diff update kri chlo
+    //3. phly left ch jandy jao pher prev leke au uper uper nal nal dif kad dy jao
+
+    void fun(TreeNode *root,int &diff,TreeNode*& prev)
+    {
+        if(root==NULL)
+        return;
+
+        //left ty gya
+        fun(root->left,diff,prev);
+
+        // suppose is time 1 ty hgi cycle ty hun sanyu prev upate krna
+        if(prev!=NULL)
+        {
+            diff=min(diff,abs((root->val)-(prev->val)));
+        }
+        //update the prev
+        prev=root;
+        
+        fun(root->right,diff,prev);// right vasty prev root hega
+
+    }
+
+    int getMinimumDifference(TreeNode* root) {
+        int diff=INT_MAX;
+        TreeNode* prev=NULL; 
+       fun(root,diff,prev);
+        return diff;
+    }
+};
