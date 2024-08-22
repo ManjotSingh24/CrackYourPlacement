@@ -1,0 +1,44 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+    // make a function that return hight of tree if it is balanced and -1 if it is not balanced
+    int fun(TreeNode* root)
+    {
+        if(root==NULL)
+        return 0;
+
+        int leftheight=fun(root->left);
+        int rightheight=fun(root->right);
+
+        if(leftheight==-1 || rightheight==-1) //peechon hi koi subtree hi balanced nhi hai
+        return -1;
+
+        //ya phir curr hi 
+        if(abs(leftheight-rightheight)>1)
+        return -1;
+
+        //means balanced hai hun pher cur node tak di hight uper bhej do +1 add karky
+        return max(leftheight,rightheight)+1;
+
+
+    }
+
+    bool isBalanced(TreeNode* root) {
+        int a= fun(root);
+        if(a==-1)
+        return false;
+        else return true;
+         
+    }
+};
