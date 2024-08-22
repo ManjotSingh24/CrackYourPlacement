@@ -1,0 +1,57 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+//1. Apply MORRIS TRAVERSAL 
+//2. node dy left child ty jao then us left child dy right most chld nu root naaal jod do
+//3. 
+    vector<int> inorderTraversal(TreeNode* root) {
+
+        vector<int> ans;
+        TreeNode* curr=root;
+        
+        while(curr!=NULL)
+        {
+
+            if(curr->left!=NULL)// go to left disconnect nodes and coonect the left childs right most child to curr node
+            {
+                TreeNode* leftchild=curr->left;
+                while(leftchild->right!=NULL)
+                {
+                    leftchild=leftchild->right;
+                }
+                leftchild->right=curr;// tako vapis a skiye
+
+              // hun loop to bachan asty cuur ty left child da relation hta do g
+              //curr->left nu null mark krdo
+
+             //temp chahida null kardo
+              TreeNode* temp=curr;
+              // cuur dy left ty chly jao 
+              curr=curr->left;
+              temp->left=NULL;
+
+            }
+            else
+            //means null agya 
+            // hun ehe curr node tan print kardo and right ty jao ji
+            {
+                ans.push_back(curr->val);
+                curr=curr->right;
+            } 
+
+        }
+        return ans;
+
+
+    }
+};
