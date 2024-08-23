@@ -1,0 +1,30 @@
+class Solution {
+public:
+
+    // ya to function use karlo
+    // follw up  ya phir observation lao
+    // 0  -> 0      6  -> 110
+    // 1  -> 1      7  -> 111
+    // 2  -> 10     8  -> 1000
+    // 3  -> 11     9  -> 1001
+    // 4  -> 100    10 -> 1010
+    // 5  -> 101
+
+    // even no. dy case ty us no. ch ohniya hi 1 bits hin giya iniya ihdy half no. ch hai
+    // odd ch +1 of its half
+
+    vector<int> countBits(int n) {
+        vector<int>res(n+1);
+        res[0]=0;
+        for(int i=1;i<=n;i++)
+        {
+           if(i%2==0)//even
+           {
+            res[i]=res[i/2];
+           } 
+           else
+           res[i]=res[i/2]+1;        
+           }
+        return res;
+    }
+};
