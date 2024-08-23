@@ -1,0 +1,91 @@
+void fun(Node* node,Node* &prevmid,Node* &mid,int &counter,int k,bool &flag)
+{   //base case
+    if(node==NULL)
+    return;
+    
+    // go to the extreme left
+    fun(node->left,prevmid,mid,counter,k,flag);
+    
+    
+    
+    
+    
+    
+    if(prevmid==NULL)
+    {
+        prevmid=node;
+        counter++;//phli node mil gyi
+    }
+    
+    
+    else if(counter==k && flag==false) //means hun bs ik vari hi ja sakda edy ch jdo flaf false hoega ik var edy andar gy flaf true ho jana then nhi ja sakdy tusi
+    {
+        //prevmid chlda a rea sady kol mid ehe preesent node bnegi meri
+        mid=node;
+        flag=true;
+        return;//bs kam khtm vapis ajo
+    }
+    
+    else if(flag==false)
+    {
+        prevmid=node;//this node is prev mid
+        counter++;
+    }
+    
+    
+    
+    
+    
+    
+    // go to the extreme right
+    fun(node->right,prevmid,mid,counter,k,flag);
+    
+}
+
+
+void countnodes(Node* node,int & count)
+{
+    if(node==NULL)
+    return;
+    // inorder hai to left then ocunt this node then right
+    countnodes(node->left,count);
+    count++;
+    countnodes(node->right,count);
+    
+}
+
+float findMedian(struct Node *root)
+{
+      //Code here
+      int n=0;
+      countnodes(root,n);
+      
+      int k=(n/2)+1;
+      int counter=1;
+      
+      bool flag=false; //ki sanu mid element mil gya ky nhi
+      
+      Node* prevmid=NULL;
+      Node* mid=NULL;
+      
+      fun(root,prevmid,mid,counter,k,flag);
+      
+      
+      //2 case agar n odd c 
+      if(n%2==1)
+      
+      {
+          float ans=(mid->data)*1.0;
+          return ans;
+      }
+      //agar n even c
+      else
+      {
+          
+          float ans=((prevmid->data+mid->data)*1.0)/(2*1.0);
+          return ans;
+          
+      }
+    
+      
+}
