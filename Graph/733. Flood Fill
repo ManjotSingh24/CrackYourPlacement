@@ -1,0 +1,40 @@
+class Solution {
+public:
+
+    void dfs(vector<vector<int>> &result,vector<vector<int>>& image,int initialcolor,int newcolor, int sr,int sc,int row[],int col[])
+    {
+        //phly is da color chnage kardy
+        result[sr][sc]=newcolor;
+        int r=image.size();
+        int c=image[0].size();
+       //hun edy charo pasy jaky vekh
+        for(int i=0;i<4;i++)
+        {
+            //pair<int,int> p=a[i];
+            int newrow=sr+row[i];
+            int newcol=sc+col[i];
+            //agar tan ohda new color nhi hai and boundry dy andar hai and ohd aphly ala color initialcolor dy brabar hai tahi
+
+            //ohnu new color dedo
+            if(newrow>=0 && newcol>=0 && newrow<r && newcol<c && result[newrow][newcol]!=newcolor && image[newrow][newcol]==initialcolor)
+             dfs(result,image,initialcolor,newcolor,newrow,newcol,row,col);
+        }
+    } 
+
+
+    vector<vector<int>> floodFill(vector<vector<int>>& image, int sr, int sc, int color) {
+        
+        int initialcolor=image[sr][sc];     
+        // will not alter the input matrix rather make a new one 
+        vector<vector<int>>result=image;
+        int newcolor=color;
+        int row[]={-1,0,1,0};
+        int col[]={0,1,0,-1};
+        dfs(result,image,initialcolor,newcolor,sr,sc,row,col);
+
+        return result;
+
+
+
+    }
+};
