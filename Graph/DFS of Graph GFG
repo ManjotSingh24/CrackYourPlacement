@@ -1,0 +1,31 @@
+void fun(vector<int> adj[],vector<int> &res, vector<bool> &visited, int node)
+    {
+        
+        res.push_back(node);
+        visited[node]=true;
+        
+        for(auto i:adj[node]) // 🔥 adj of curr node
+        {
+            if(visited[i]==false)
+            {
+                //stack jiven dubara fun call kardo
+                fun(adj,res,visited,i);
+            }
+        }
+        
+        
+        
+    }
+    
+    
+    vector<int> dfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        vector<int> res;
+        
+        vector<bool> visited(V,0);
+        
+        fun(adj,res,visited,0);
+        
+        return res;
+        
+    }
