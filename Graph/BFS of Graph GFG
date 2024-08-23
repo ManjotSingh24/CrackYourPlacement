@@ -1,0 +1,40 @@
+vector<int> bfsOfGraph(int V, vector<int> adj[]) {
+        // Code here
+        
+        // 1. bfs hai queue chidi hai
+        queue<int> q;
+        
+        
+        //2. grpah traersal  loops hundiy agraph ch dubarar na visit kar liye so visisted array
+        vector<bool>visited(V,false);
+        
+        
+        //3. ans return krna hai so
+        vector<int> result;
+        
+        
+        //4. queue ch 0th node paky visited array ch mark a krdo
+        q.push(0);
+        visited[0]=true;
+        
+        //queue use karky bfs lado
+        
+        while(!q.empty())
+        {
+         
+         int node=q.front();
+         result.push_back(node);
+         q.pop();
+         
+         for(auto arr: adj[node])
+         {
+             if(visited[arr]==false)
+             {
+                 visited[arr]=true;//true kardo
+                 q.push(arr);
+             }
+         }
+        }
+        
+      return result;  
+    }
