@@ -1,0 +1,42 @@
+class Solution {
+public:
+/* 1. monotonic inceasing stack rkho nik vari ch hi nsi bse nikluga 
+   2. phly 11 paya pher stack ch 14 pher 12 ty aye  hun 14 vda means 14 da nse ki hai 12
+   3. ty 14 da pse ki hai jo 14 to pelan stac ch aya c jo ki hai 11  
+*/
+    int largestRectangleArea(vector<int>& heights) {
+        int ans=INT_MIN;
+        int n=heights.size();
+        stack<int> stk; //our monotonic incerasing stack to store indeces
+        for(int i=0;i<n;i++)
+        {
+            while(!stk.empty() && heights[stk.top()]>heights[i])
+            {
+                int idx=stk.top();
+                stk.pop();
+                int nse_of_popped_index=i;//current
+                int pse_of_popped_index=(stk.empty())?-1:stk.top();//since incresing stack a popped lemnt to pela aya hoya elent stack ch ohda pse hoega agar stack ch popped element to pelan koi ni c then -1 is pse
+                //hun popped element da ans kad ky compare karlo // idx likhna si i ikhta
+                int area_of_curr_height=heights[idx]*(nse_of_popped_index-pse_of_popped_index-1);
+                //compare kar lo
+                ans=max(ans,area_of_curr_height);
+            }
+            stk.push(i);
+        }
+        //hjy v elements hon gy stack ch
+        //ena elemts da((((( nse))))) nhi haiga and pse ena to pechky stack dy ements ehegy a 
+
+        while(!stk.empty())
+        {
+            int curr=stk.top();
+            stk.pop();
+            int nse=n;
+            int pse=(stk.empty())?-1:stk.top();
+            int area=heights[curr]*(nse-pse-1);
+            ans=max(ans,area);
+        }
+
+        //return ans
+        return ans;
+    }
+};
