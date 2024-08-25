@@ -1,0 +1,53 @@
+string smallestWindow (string s, string p)
+    {
+        // Your code here
+        // to return the one with smallest strting index we need
+        
+        int n=s.size();
+        int m=p.size();
+        int count=0;
+        int starting_index=-1;
+        int min_length=INT_MAX;
+        int left=0;
+        int right=0;
+        vector<int>hash(256,0);
+        //window size increase howga means hash --;
+        //windiw size decrease hash ++
+        for(int i=0;i<m;i++)
+        hash[p[i]]++;
+        
+        while(right<n)
+        {
+            
+            if(hash[s[right]]>0)//means ehe charachter pelan heiga c map ch and string p ch
+            {
+            count++;
+            }
+            hash[s[right]]--;
+            
+            while(count==m) //window size dec karo w eneed min window size
+            {
+                
+                if(right-left+1<min_length)
+                {
+                    //update the minlength and starting index
+                    min_length=right-left+1;
+                    starting_index=left;
+                }
+                
+                //paly uper update karta hun ghat kro window nu
+                hash[s[left]]++; // s[left] haiga ehe dyhan rakhi 💚💚
+                if(hash[s[left]]>0)
+                { //means ehe preinsrted haiga c means ehe string s chhaiga c
+                count--;
+                }
+                
+                left++;// left pointer agy kro g
+            }
+            right++;
+        }
+        
+        return starting_index== -1 ? "-1" : s.substr(starting_index,min_length);
+        
+        
+    }
