@@ -1,0 +1,53 @@
+class Solution {
+public:
+/*
+EDGDE CASES KAFI HEIN
+1.  995 -> 9 hundred (95)
+2. 9995 -> 9 thousand ( 9 hundred ) (95)
+3. rescurssion hai so
+4. once place ka to map mein strore kr lengy
+5. 10 to 19 ki special naming hai 12 -> is not (one 2) its tweleve cannot be derived
+5. <100  -> 33   thirty + " " + fun(33/10) -->three
+*/
+    unordered_map<int, string> belowTen = { {0, ""}, {1, "One"}, {2, "Two"}, {3, "Three"}, {4, "Four"}, {5, "Five"}, {6, "Six"}, {7, "Seven"}, {8, "Eight"}, {9, "Nine"} };
+    unordered_map<int, string> belowTwenty = { {10, "Ten"}, {11, "Eleven"}, {12, "Twelve"}, {13, "Thirteen"}, {14, "Fourteen"}, {15, "Fifteen"}, {16, "Sixteen"}, {17, "Seventeen"}, {18, "Eighteen"}, {19, "Nineteen"} };
+    unordered_map<int, string> belowHundred = { {1, "Ten"}, {2, "Twenty"}, {3, "Thirty"}, {4, "Forty"}, {5, "Fifty"}, {6, "Sixty"}, {7, "Seventy"}, {8, "Eighty"}, {9, "Ninety"} };
+
+    string fun(int num)
+    {
+        if(num<10)
+        return belowTen[num];
+
+        if(num<20)
+        return belowTwenty[num];
+
+        if(num<100) // 85 eight is from 85/10 --> 8 from hundered map + 85%10 ka belowten
+        //edge case 80 90 --> eighty
+        return belowHundred[num/10] + ((num%10!=0)?" "+belowTen[num%10]:"");
+
+        if(num<1000) // 598 --> 5 + 5%100->98
+        return belowTen[num/100] +" "+ "Hundred" + ((num%100!=0)?" "+fun(num%100):"");
+
+        //256879 --> 256 thousand 8 hundred 7 ty 9 e 10 lack to nechy tak dy no.. ch anda
+        if(num<1000000)     // %1000 last three digit dega
+        return fun(num/1000) + " Thousand" + ((num%1000!=0)?" "+fun(num%1000):"");
+
+        //lakh valy million aly 111112345 -> 111 million 
+        if(num<1000000000)
+        return fun(num/1000000) + " Million" +((num%1000000 != 0) ? " " + fun(num%1000000) : "");
+
+        else // billion aly
+         return fun(num/1000000000) + " Billion" +((num%1000000000 != 0) ? " " + fun(num%1000000000) : "");
+
+
+    }
+
+
+    string numberToWords(int num) {
+        //base case
+        if(num==0)
+        return "Zero";
+
+        return fun(num);
+    }
+};
