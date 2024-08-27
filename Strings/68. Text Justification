@@ -1,0 +1,83 @@
+class Solution {
+public:
+/*
+1. i and j pointers rkahngy jithy j rukyga oho vala index string apa nhi add krangy curr lie ch
+2. main fullJustify vala function ik line ch kiny word + spaces 
+3. function us line ch word + spaces nu justify kran gy
+*/
+
+    string line(int i,int j,vector<string>& words,int each_space_width, int extra_space,int maxWidth)
+    {
+        string s;
+
+        for(int k=i;k<j;k++)
+        {
+            s+=words[k];
+
+            //justification mein chk kro last word ky baad no space -> 'What   must   be'
+            if(k==j-1)
+            continue;
+
+            for(int spaces=1;spaces<=each_space_width;spaces++) //5 space denahai means 1 2 3 4 5 na ki 0 1 2 3 4 5 so 1 sy shuru krna hai
+            s+=" ";
+
+            //extraspace hai to har space between two words mein add krty rho
+            if(extra_space>0)
+            {
+                s+=" ";
+                extra_space--;
+            }
+        }
+
+        while(s.length() < maxWidth) {
+            s += " ";
+        }
+
+        return s;
+
+    }
+
+    vector<string> fullJustify(vector<string>& words, int maxWidth) {
+        
+        vector<string> ans;
+        int n=words.size();
+
+        int i=0;
+
+        while(i<n)
+        {
+        // new line shuru kro g
+        int char_count=words[i].length(); // first word tan pa hi do
+        int space_btween_words=0; //kyonki huny word hi ik haiga
+
+        int j=i+1;
+        while(j<n && char_count+space_btween_words+1+words[j].length()<=maxWidth)
+        {
+            char_count+=words[j].length();
+            space_btween_words+=1;
+            j++;
+        }
+        //bs hun hor nhi pa sakdy
+        //remianing kiny spaces reh gy
+        int total_space_slots_in_curr_line=maxWidth-char_count;
+        int each_space_width=space_btween_words==0?0:total_space_slots_in_curr_line/space_btween_words;
+        int extra_space=space_btween_words==0?0:total_space_slots_in_curr_line%space_btween_words;
+
+        // j last word ty haiga means hun ehe vala i to j ch jiny words heiga  aoho last line ch any a
+        // left justification
+        if(j==n)
+        {
+        each_space_width=1;
+        // no extra spaces
+        extra_space=0;
+        }
+
+        string s= line(i,j,words,each_space_width,extra_space,maxWidth);
+        ans.push_back(s);
+
+        i=j;
+        }
+        return ans;
+
+    }
+};
