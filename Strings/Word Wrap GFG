@@ -1,0 +1,46 @@
+/*
+    1. nums ka order nhi change heoga
+    2. last line space nhi add hoga cost mein
+    3.words ky beech mein ek space jrruri hai and vo count nhi hoga cost mein
+    4. greedy sy kaam nhi chlega
+    5. recussion chlao 
+    6. first  word to first line mein hi ayega
+    7. second word sy choice bnao ki is mein rkhy ky next line mein
+    8. recusrion+ dp a
+    */
+    
+    vector<vector<int>>dp;
+    int fun(int index,int space_consumed,vector<int>nums, int k,vector<vector<int>>&dp)
+    {
+        //base case
+        if(index==nums.size())
+        return 0;
+        
+        if(dp[index][space_consumed]!=-1)
+        return dp[index][space_consumed];
+        
+        
+        int a=INT_MAX;
+        int newspace=space_consumed+1+nums[index];
+        //continue on same line
+        if(newspace<=k)
+        {
+        a=fun(index+1,newspace,nums,k,dp);
+        }
+        
+        // is word nu mein next line ch pata hun space kini bchi
+        int b= fun(index+1,nums[index],nums,k,dp)+ (k-space_consumed)*(k-space_consumed);
+        
+        return dp[index][space_consumed]= min(a,b);
+        
+    }
+
+
+    int solveWordWrap(vector<int>nums, int k) 
+    { 
+        // Code here
+        int n=nums.size();
+        dp.resize(n+1,vector<int>(k+1,-1));
+        return fun(1,nums[0],nums,k,dp);
+        
+    } 
