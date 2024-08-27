@@ -1,0 +1,49 @@
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        int n=s.size();
+        int i=0,j=0;
+
+        int cnt=0;
+        int min_len=INT_MAX;
+        int starting_index=-1;
+
+        //map use kro 
+        unordered_map<char,int> mp;
+
+        for(char c:t)
+        mp[c]++;
+
+        while(j<n)
+        {
+            char c=s[j];
+
+           if(mp[c]>0)
+           {
+                cnt++;
+           }     
+            mp[c]--;
+
+            //if count== t size dy equal ho gya
+            while(cnt==t.size()) //window size chota kro jdonnn tak
+            {
+                int len=j-i+1;
+                if(len<min_len)
+                {
+                    starting_index=i;
+                    min_len=len;
+                }
+
+                mp[s[i]]++;
+                if(mp[s[i]]>0)
+                cnt--; // means koi t da character gya nhi tan sirf jede s ch ny oho -ve hi ren gy ya phir  ,0
+
+                i++; // window size chot aho rea
+            }
+        j++;// window size vda ho rea
+        }
+
+        return starting_index==-1?"":s.substr(starting_index,min_len);
+
+    }
+};
