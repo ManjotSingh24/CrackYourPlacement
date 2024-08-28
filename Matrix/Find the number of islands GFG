@@ -1,0 +1,56 @@
+void bfs(int i,int j,vector<vector<char>>& grid,vector<vector<int>>&vis)
+    {
+        vis[i][j]=1;//phla tan enu visited kardy
+        // bfs vasty
+        queue<pair<int,int>>q;
+        q.push({i,j});
+        
+        int n=grid.size();
+        int m=grid[0].size();
+        
+        while(!q.empty())
+        {
+            int row=q.front().first;
+            int col=q.front().second;
+            q.pop();
+            
+            // to go in all 8 directions
+            for(int r=-1;r<=1;r++)
+            {
+                for(int c=-1;c<=1;c++)
+                {
+                    int newrow=row+r;
+                    int newcol=col+c;
+                    if(newrow<n && newrow>=0 && newcol<m && newcol>=0 && vis[newrow][newcol]==0 && grid[newrow][newcol]=='1')
+                    {
+                        vis[newrow][newcol]=1; //hun ehe neighbour v visited ho gya
+                        q.push({newrow,newcol});
+                    }
+                }
+            }
+        }
+        
+    }
+    
+    
+    int numIslands(vector<vector<char>>& grid) {
+        // Code here
+        int n=grid.size();
+        int m=grid[0].size();
+        vector<vector<int>>vis(n,vector<int>(m,0)); // 0 not visited 1 vivited
+        int no_of_islands=0;
+        
+        for(int i=0;i<n;i++)
+        {
+            for(int j=0;j<m;j++)
+            {
+                if(vis[i][j]==0 and grid[i][j]=='1') //oho ik unvisited island->1 hai
+                {
+                   no_of_islands++;
+                   bfs(i,j,grid,vis);
+                }
+            }
+        }
+        return no_of_islands;
+        
+    }
