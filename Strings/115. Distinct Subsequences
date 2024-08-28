@@ -1,0 +1,40 @@
+class Solution {
+public:
+    //bottom up lgado
+
+   /*
+        t s " "  b  a  b  g  a   a  g
+        " "  1   1  1  1  1  1   1  1  *-> tryingto make b using " " and b 
+        b    0   2*
+        a    0
+        g    0
+
+   */
+    int numDistinct(string s, string t) {
+        // relation  s string has size m and no. of columns are s means m and j is movin in coumns
+        // relation same between t and i and n  rows having t +1 no. of rows
+
+        int n=t.size(); // rows
+        int m=s.size(); // clumns
+        // s+1 no. of col and t+1 no. of rows
+        vector<vector<unsigned long long>>dp(n+1,vector<unsigned long long>(m+1,0));// first column eithy hi apa 0 fill karta
+
+        //first row bhar dy
+        for(int j=0;j<=m;j++) // j jaega s dy size tak
+        dp[0][j]=1;
+
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=m;j++)
+            {
+                if(t[i-1]==s[j-1]) // very imp line to deal with shiting characters
+                dp[i][j]=dp[i-1][j-1]+dp[i][j-1];
+                else
+                dp[i][j]=dp[i][j-1];
+            }
+        }
+
+        return dp[n][m];
+
+    }
+};
