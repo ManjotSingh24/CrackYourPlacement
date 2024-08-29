@@ -1,0 +1,78 @@
+class Solution {
+public:
+    //kisi reson vasty merge sort sau decending order ch pana
+    void merge(vector<pair<int,int>>&V,vector<int>&res,int left,int mid,int right)
+    {
+        // merge krna left to right tk dy array nu
+        int size=right-left+1;
+        vector<pair<int,int>>temp(size);
+        int i=left; //first half array da first index 
+        int j=mid+1;//second half array da firtsi ndex
+        int k=0;// temp arrray ch pana merge (part) of oroginal rray
+
+
+        while(i<=mid && j<=right)//dono apni apni half array ch rein
+        {
+            if(V[i].first<=V[j].first){
+           // temp ch pelan vda pao
+            temp[k++]=V[j++];
+            }
+
+            else
+            {
+            //dekho hhun i <j but V[i] da elemt vad ho gya means elan vvda aya pher chot aand sanu right val nu kiny choty c oh find krny c
+            // tan bas  ith no. original array ch kinvy index ty haiga ohd acount ++ krdy
+            res[V[i].second]+=right-j+1;// very imp line since array descending ch a if j to vda i the j+1 to v vda houga
+            temp[k++]=V[i++];
+            }
+        }
+
+            //koi ik pointer ou of bound ho gya
+            while(i<=mid){
+            temp[k++] = V[i++];
+            }
+        
+            while(j<=right){
+            temp[k++] = V[j++];
+            }
+
+            //merge karky original ch pado
+            for(int i=left;i<=right;i++)
+            {
+                V[i]=temp[i-left];// V original a ty temp ik choti array a so shifting of indecs karky left minus kita
+            }
+
+            
+        
+    }
+
+     void mergesort(vector<pair<int,int>>&V,vector<int>&res,int left,int right)
+    {
+        if(left<right)
+        {
+            int mid=left+(right-left)/2; //problem
+            mergesort(V,res,left,mid);
+            mergesort(V,res,mid+1,right);
+            merge(V,res,left,mid,right);
+        }
+
+    }
+
+    vector<int> countSmaller(vector<int>& nums) {
+        int n=nums.size();
+        vector<pair<int,int>>V(n);
+        //elemnt ty index dono pary kyonki resut array ch  original index dy hisab nal hi count of smaller pana
+        for(int i=0;i<n;i++)
+        {
+            pair<int,int>p;
+            p.first=nums[i];
+            p.second=i;
+            V[i]=p;
+        }
+
+        vector<int>res(n,0);
+        mergesort(V,res,0,n-1);
+        return res;
+
+    }
+};
