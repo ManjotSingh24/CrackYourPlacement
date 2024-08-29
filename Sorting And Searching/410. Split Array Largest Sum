@@ -1,0 +1,81 @@
+class Solution {
+public:
+/*
+  7  2   5  10  8  k=2
+  what if k=1  7+2+5+10+8 ->32
+  k=2 so cut kaha lgai
+   
+   7 | 2   5  10   8  --25
+   7  2  |  5  10  8 --23
+   7  2   5 |  10  8 -- max(14,18) -> 18  -> is the least
+   7  2   5  10 |  8  -> 24,8  ->24
+
+   we can spli the arrys from k=1 to n
+   so max sum in case of k=1 is sum of all entire array -->32
+   k=n  max subarray would be max elemnt in array    --> 10
+
+   our ans is betewn 32 ----> 18 <----- 10
+   k-----------------1---------2--------5 subarrays
+
+   lets take any max sum 15 which is between 10 to 32 
+   can we divide array in 2 subarrsy with sum to be 15 or less here we are saying largest sium is 15 with 2 cuts
+
+    if yes the go down kynki sum hor chot akrvao  largest sum of any subarray is minimized.
+
+*/
+
+
+    int fun(vector<int>&nums,int max_sum)
+    {
+        int n=nums.size();
+        int sum=0;
+        int no_of_subarrays=1;
+
+        for(int i=0;i<n;i++)
+        {
+            if(sum+nums[i]>max_sum)
+            {
+                //new subarray bnao ty sum 0 karky nums[i] ad kardo
+                sum=nums[i];
+                no_of_subarrays++;
+            }
+            else
+            sum+=nums[i];
+        }
+
+        return no_of_subarrays;
+    }
+
+    int splitArray(vector<int>& nums, int k) {
+        
+        int sum=0;
+        int n=nums.size();
+        int max_no=nums[0];
+        int ans=0;
+        for(int i=0;i<n;i++)
+        {
+            sum+=nums[i];
+            max_no=max(max_no,nums[i]);
+        }
+
+         int left=max_no;
+         int right=sum;
+
+         while(left<=right)
+         {
+            int mid=left+(right-left)/2;
+            int res=fun(nums,mid);//how many subarrays we need to have at max sum = mid
+            if(res>k) //yar subarrays tan jada lag ry means mid uper jaega kyonki ghat cuts naal max sum jada jega so uper jao
+            left=mid+1;
+            else
+            {
+                // yaaar i ssum vasty tan k ya ghat cuts lgy cglo sum minimise krna lets go down max sum hor minimize kardo
+                ans=mid;
+                right=mid-1;
+            }
+         }
+
+         return ans;
+
+    }
+};
