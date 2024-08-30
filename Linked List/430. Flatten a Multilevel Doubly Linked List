@@ -1,0 +1,63 @@
+/*
+// Definition for a Node.
+class Node {
+public:
+    int val;
+    Node* prev;
+    Node* next;
+    Node* child;
+};
+*/
+
+class Solution {
+public:
+    Node* flatten(Node* head) {
+        
+        Node* curr=head;
+        Node* previous=head;
+
+        stack<Node*> stk;
+
+        while(curr!=NULL)
+        {
+            if(curr->child!=NULL)
+            {
+                //child da address store karlo
+
+                if(curr->next!=NULL)///enu stack ch pado enu asi child to baad visit krungy
+                {
+                    stk.push(curr->next);
+                    curr->next->prev=NULL;
+                }
+                curr->next=curr->child;
+                curr->child->prev=curr;
+                curr->child=NULL;
+
+            }
+            previous=curr;
+            curr=curr->next;
+        }
+
+        //wpis andy andy stack khali kardo
+        while(!stk.empty())
+        {
+            curr=stk.top();
+            stk.pop();
+            previous->next=curr;
+            curr->prev=previous;
+
+            //hun is branch dy end tk jao
+
+            while(curr!=NULL)
+            {
+                previous=curr;
+                curr=curr->next;
+            }
+
+        }
+
+
+        return head;
+
+    }
+};
