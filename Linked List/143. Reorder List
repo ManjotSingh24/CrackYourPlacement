@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+
+    /*
+    1. 2 pointer lene painy i starting ch j end ch  i nu j naal j nu i+1 naal i++ j++
+    2. but link lis ch i poinetr i+1 chla jega but j j-1 ty nhi jaega
+    3. so reverse kardo half of the linked list nu
+    4. fast slow pointer nal half kdo
+    5. half revrse kardo
+    6. jo bolya 1-->n-->2-->n-1 eda hi kardo
+    */
+
+    ListNode* reverse(ListNode* head)
+    {
+        if(!head|| !head->next)
+        return head;
+
+        ListNode* last=reverse(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return last;
+    }
+
+    void reorderList(ListNode* head) {
+        
+        ListNode* slow=head;
+        ListNode* fast=head;
+
+        while(fast!=NULL && fast->next!=NULL) // odd and even length vasty hegi a ehe do conditions
+        {
+            slow=slow->next;
+            fast=fast->next->next;
+        }
+
+        ListNode* curr2=reverse(slow);
+
+        ListNode* curr=head;
+
+        while(curr2->next!=NULL)
+        {
+            ListNode* temp1=curr->next;
+            ListNode* temp2=curr2->next;
+
+            curr->next=curr2;
+            curr2->next=temp1;
+
+            curr=temp1;
+            curr2=temp2;
+
+        }
+        
+
+    }
+};
