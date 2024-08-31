@@ -1,0 +1,74 @@
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode() : val(0), next(nullptr) {}
+ *     ListNode(int x) : val(x), next(nullptr) {}
+ *     ListNode(int x, ListNode *next) : val(x), next(next) {}
+ * };
+ */
+class Solution {
+public:
+
+    ListNode* get_kth_node(ListNode* curr, int k)
+    {
+        int counter=1;
+
+        while(curr!=NULL && counter<k)
+        {
+            curr=curr->next;
+            counter++;
+        }
+
+        return curr;
+
+    }
+
+    ListNode* reverse(ListNode* head)
+    {
+        if(head==NULL || head->next==NULL)
+        return head;
+
+        ListNode* last=reverse(head->next);
+        head->next->next=head;
+        head->next=NULL;
+        return last;
+
+    }
+
+
+    ListNode* reverseKGroup(ListNode* head, int k) {
+        
+        ListNode* temp=head;
+        ListNode* preserve1=NULL;//pichli iteration di sorted node da last node
+        while(temp!=NULL)
+        {
+            ListNode* kth_node=get_kth_node(temp,k);
+            
+                if(kth_node==NULL)//means k group to chot agroup milya
+                {
+                if(preserve1!=NULL)
+                    preserve1->next=temp; // eg may be k  >link list da size
+                    break; //bs ehe last group hai ed ahi rendo no revera=sal needed
+                }
+
+            ListNode* preserve2=kth_node->next; //ehe hai taki temp agli iteration vasty next k group reverse kar pay kyonki kth dad next hun asi null kardena    
+            kth_node->next=NULL;
+
+           reverse(temp);
+
+            if(temp==head)//first reversal change the new head
+            head=kth_node;
+            else // firt reversl nhi hai means sanu pichli iteration da last node nu connect krna is iteration dy head node naal
+            preserve1->next=kth_node;
+
+            preserve1=temp;// is iteration da last node
+            temp=preserve2;
+
+        }
+
+        return head;
+
+    }
+};
