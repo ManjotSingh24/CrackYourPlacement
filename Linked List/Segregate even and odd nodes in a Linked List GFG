@@ -1,0 +1,50 @@
+Node* divide(Node* head) {
+        // code here
+        Node* evenHead=NULL;
+        Node* even=NULL;
+        Node* oddHead=NULL;
+        Node* odd=NULL;
+        
+        Node* curr=head;
+        
+        while(curr)
+        {
+            if(curr->data%2==0)
+            {
+                if(evenHead==NULL)
+                {
+                    evenHead=curr;
+                    even=curr;
+                }
+                else
+                {
+                even->next=curr;
+                even=even->next;
+                }
+            }
+            
+            else
+            {
+                if(oddHead==NULL)
+                {
+                    oddHead=curr;
+                    odd=curr;
+                }
+                else
+                {
+                    odd->next=curr;
+                    odd=odd->next;
+                }
+            }
+            
+            curr=curr->next;
+            
+        }
+        
+        //join the even to oddhead
+        if(even) even->next=oddHead; //means ik v even hai then ohny odd dy head nal jodo
+        if(odd) odd->next=NULL; // agar odd hai ik v then odd pointer jo ki odd linke dlist d alast lemnt da adress hai ohnu null nall jodo
+        
+        if(evenHead) return evenHead;
+        return oddHead;
+    }
