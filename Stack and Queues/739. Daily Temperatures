@@ -1,0 +1,33 @@
+class Solution {
+public:
+// closest neighbour to the right which is more then me
+    vector<int> dailyTemperatures(vector<int>& temperatures) {
+        //we need a monotonic decreasing stack
+
+        stack<int> stk;//indices jan gy
+        int n=temperatures.size();
+        vector<int> ans(n);
+
+        for(int i=0;i<n;i++)
+        {
+
+            while(!stk.empty() && temperatures[stk.top()] <temperatures[i] )
+            {
+                ans[stk.top()]=i-stk.top();
+                stk.pop();
+            }
+
+            stk.push(i);
+
+        }
+
+        while(!stk.empty())
+        {
+            ans[stk.top()]=0; // ena tempearures nu oi wormer temp pop hi nhi kr paya means 0 pao
+            stk.pop();
+        }
+
+
+        return ans;
+    }
+};
