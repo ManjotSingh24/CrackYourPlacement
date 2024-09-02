@@ -1,0 +1,76 @@
+class Solution {
+public:
+
+    int mod=1e9+7;
+
+        /*
+        similar to historgram max area and water remaining in the grids
+        problem stack tk ponchi kiven
+
+        1. [3,1,2,4] sanu no. of subarrays dekhny a 1 vasty jidy ch sirf 1 is min hovy
+        {3,1} ,{1},{3,1,2},{3,1,2,4}, {1,2} ,{1,2,4} -> 6 subaarrys hai jidy ch 1 min so
+        no. of (((((continues))))) elements on left of 1 that are greater then that and on right
+        left=1 right=2  left+1*right+1 = 2*3=6 6 subarry sch 1 min so 6*1 ans ach add kardy
+
+        ya phir asi index  v nikal sakdiy left ty just smaller da index agae nh hai tan -1
+        right ch nhi hai tan n for 1 --> [1- -1]*[4-1] =2*3=6
+
+        2. arraya bnavangy left smaller right smller 
+
+        */
+
+    int sumSubarrayMins(vector<int>& arr) 
+    {
+
+        long long ans=0;
+        int n=arr.size();
+        vector<int>prev_smaller(n);
+        vector<int>next_smaller(n);
+
+        stack<int>stk;
+
+        //monotonically increasing stack
+        for(int i=0;i<n;i++)
+        {
+            if(stk.empty())
+            {
+                prev_smaller[i]=-1;
+                stk.push(i);
+                continue;
+            }
+
+            while(!stk.empty() && arr[i]<arr[stk.top()])
+            {
+                next_smaller[stk.top()]=i; //since cur elemnt ny hi stack top nu htaya kyonki chot c top ton
+                stk.pop();
+            }
+
+            if(stk.empty())//curr ny sary choty hta ty ty stack empty hogi means esto pela koi chot ahi nhi si
+            prev_smaller[i]=-1;
+            else //means esto pela jeda stack top ty py aohi eda prev smalller haiga
+            prev_smaller[i]=stk.top();
+
+            stk.push(i);
+
+        }
+
+        //stack ch oho elemts rehgy jina da next saller hai hi nhi nhi tan oho stack dy elemnt snu pop krva dendy so ehe stack dy ary elmet sda next smaller hai hi nhi
+        while(!stk.empty())
+        {
+            next_smaller[stk.top()]=n;
+            stk.pop();
+        }
+
+        for(int i=0;i<n;i++)
+        {
+            long long a=i-prev_smaller[i];
+            long long b=next_smaller[i]-i;
+            long long unsigned int prod=((((a*b)%mod)*arr[i])%mod)%mod;
+
+            ans=((ans)%mod+prod)%mod;
+        }
+
+        return ans;
+
+    }
+};
