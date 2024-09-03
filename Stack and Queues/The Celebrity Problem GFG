@@ -1,0 +1,36 @@
+int celebrity(vector<vector<int> >& mat) {
+        // code here
+        // THERE CAN BE MAX TO MAX 1 CELEB AND MIN 0 (eg 3X3 0 matrix )
+        bool flag=false;
+        
+        int possible_celeb;
+        
+        int row=mat.size();
+        int col=mat[0].size();
+        
+        for(int i=0;i<row;i++)
+        {
+            flag=false;
+            for(int j=0;j<col;j++)
+            {
+                if(mat[i][j]==1)
+                flag=true;
+            }
+            if(flag==false)
+            possible_celeb=i;
+        }
+        
+        //possible celeb di col chcke kro except tpossible celobs col it shoul dbe 1
+        
+        int cnt=0;
+        for(int r=0;r<row;r++)
+        {
+            if(mat[r][possible_celeb]==1 && r!= possible_celeb )
+            cnt++;
+            
+        }
+        
+        if (cnt== row-1)
+        return possible_celeb;
+        return -1;                                                                                                          
+    }
