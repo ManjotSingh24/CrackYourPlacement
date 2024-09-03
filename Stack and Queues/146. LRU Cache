@@ -1,0 +1,128 @@
+class LRUCache {
+public:
+
+    /*
+    doubly link list use krni paini a taki delete and insert kr piye
+    map use krna key ty value nhi blki adress vasty doubly ch value pa dangy appa
+
+         ---> last recently used --> ...          least recently used  <---tail
+    head <---                    <--    ...                            --->
+
+    Node of LL is next ,prev,key,val
+    map key and adress node
+    capacity
+    head and tail of LL
+
+    */
+
+    class node{
+        public:
+        int key;
+        int value;
+        node* prev;
+        node* next;
+
+        //constructor
+        node(int _key,int _value)
+        {
+            key=_key;
+            value=_value;
+        }
+
+    };
+
+    int cap=0;
+
+    unordered_map<int,node*>mp;
+
+    node *head=new node(-1,-1);
+    node *tail=new node(-1,-1);
+
+    LRUCache(int capacity) {
+        cap=capacity;
+        head->next=tail;
+        tail->prev=head;       
+    }
+    
+    //our 2 custome functions
+    void insertfun(node* newnode)//will insert just after the head
+    {
+        //2 next ty do prev change hony a
+
+        node* temp=head->next; // head to jedi next node hao ohd aprev v tan change krna hai na
+
+        //new node dy pointers change kity
+        newnode->next=head->next;
+        newnode->prev=head;
+
+        //head node dy pointer chnage lrdo
+        head->next=newnode;
+
+        temp->prev=newnode;
+    }
+
+    void deletefun(node* newnode) // bs pointers hi tan change kr ry han
+    {
+
+        node* a=newnode->prev;
+        node* b=newnode->next;
+        a->next=b;
+        b->prev=a;
+    }
+
+    int get(int key_) {
+        
+        //haiga hai 1. first ty node pafy 2. ly ay vlue ohdi
+        if(mp.find(key_)!=mp.end())
+        {
+            node* newnode=mp[key_];
+            int result=newnode->value;
+
+            //phly loc change kardo kyonki use kita va
+            deletefun(newnode);//pecho hta do
+            insertfun(newnode);//agy pado
+
+
+            return result;
+        }
+        else
+        // hai hi nhi kinu get krangy
+        return -1;
+
+
+    }
+    
+    void put(int key_, int value_)  //thoda complex haiga
+    {
+
+        //agar oho hegi a bs value change kardo
+        if(mp.find(key_)!=mp.end())
+        {
+            node* newnode=mp[key_];
+            mp.erase(key_);
+            deletefun(newnode);
+        }
+
+        //agar oho nhi hai  --> 1ST CASE but capacity full hai 2ND CASE ---> capacity not full just insert
+        if(mp.size()==cap)//ik delete kardo apny app hi
+        {
+            //last delete kardo
+            mp.erase(tail->prev->key);// map cho key adress delet krdo
+            deletefun(tail->prev);
+        }
+
+        //capacity v hai and phly haiga v nhi c
+        node* nvi_node= new node(key_,value_);
+        insertfun(nvi_node); //bdi ajeeb line hai
+        mp[key_]=head->next;// value and address map ch update kardo
+
+
+    }
+};
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache* obj = new LRUCache(capacity);
+ * int param_1 = obj->get(key);
+ * obj->put(key,value);
+ */
