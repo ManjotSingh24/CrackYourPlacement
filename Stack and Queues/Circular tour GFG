@@ -1,0 +1,38 @@
+ /*
+    jidron shuru kita othy hi khtm krna piana
+    */
+    
+    int tour(petrolPump p[],int n)
+    {
+       //Your code here
+       int fuel_have=0;
+       int fuel_req=0;
+       
+       for(int i=0;i<n;i++)
+       {
+           fuel_have+= p[i].petrol;
+           fuel_req+=p[i].distance;
+       }
+       
+       if(fuel_have<fuel_req)
+       return -1;
+       
+       //means ans hai dy kithy
+       
+       int fuel=0;
+       int ans=0;//min idex of petrol pump from where we can start the journey
+       
+       for(int i=0;i<n;i++)
+       {
+           fuel= fuel+ p[i].petrol-p[i].distance;
+           if(fuel<0)//means ehe nhi hai
+           {
+               fuel=0;// edron nhi shuru krna
+               ans=i+1; //may be next to shuru krny ty mil jy
+           }
+       }
+       
+       return ans;
+       
+       
+    }
