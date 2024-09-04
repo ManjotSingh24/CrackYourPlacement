@@ -1,0 +1,67 @@
+vector <int> maxOfMin(int arr[], int n)
+    {
+        // Your code here
+        vector<int>left(n,-1);
+        vector<int>right(n,n);
+        int min_element=INT_MAX;
+        
+        stack<int> stk;
+        
+        for(int i=0;i<n;i++)
+        {
+            min_element=min(min_element,arr[i]);
+            
+            if(stk.empty())
+            {
+                stk.push(i);
+                left[i]=-1;
+                continue;
+            }
+            
+            while(!stk.empty() && arr[i]<=arr[stk.top()])
+            {
+                right[stk.top()]=i;
+                stk.pop();
+            }
+            
+            if(!stk.empty() && arr[i]>arr[stk.top()])
+            {
+                left[i]=stk.top();
+            }
+            
+            
+            stk.push(i);
+            
+        }
+        
+        vector<int> ans(n,min_element);
+        
+        
+        for(int i=0;i<n;i++)
+        {
+            int index=right[i]-left[i]-1;
+            ans[index-1]=max(ans[index-1],arr[i]);
+        }
+        
+        
+        
+        // for(int i=0;i<n;i++)
+        // cout<<ans[i]<<" ";
+        
+        // cout<<endl<<endl;
+        
+        //ehe step hun tak nhi smjh area
+        // it means suppose array bnya [88,22,33,22,22] -> agar 33 3subarrsy ch sabto bda hai tan
+        // jiven 88,22,33 --> 22 , 22,33,22-> 33(max) , 33,22,22->22 
+        //then 33 2 length di subarrsy ch v sbton bda ban sakda 
+        //88,22 --> min22
+        //22,33 --> min33
+        //33,22 ---> min33 is the max
+        //22,22 --> min22
+        
+        for(int i = n - 2; i >= 0; i--){
+            ans[i] = max(ans[i + 1], ans[i]);
+        }
+        
+        return ans;
+    }
