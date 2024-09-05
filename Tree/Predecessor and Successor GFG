@@ -1,0 +1,65 @@
+void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        // Your code goes here
+        if(!root)
+        return;
+        
+        //key mil gi agar donso side searh kro
+        if(root->key==key)
+        {
+        findPreSuc(root->left,pre,suc,key);
+        findPreSuc(root->right,pre,suc,key);
+        }
+        
+        else if(root->key<key)//root chota means predecessor hoega so succesor vasty right ch jao
+        {
+            pre=root;
+            findPreSuc(root->right,pre,suc,key);
+        }
+        else//root vda ey ton sucessor hoega left ch jao
+        {
+            suc=root;
+            findPreSuc(root->left,pre,suc,key);
+        }
+        
+        
+    }
+
+//////-------------------------------------OR----------------------------------------------/////
+
+void successor(Node* root, Node*&suc,int k)//dhyan dy root nu by reference nhi send krna
+    {
+        while(root) // successor means just vda
+        {
+            if(root->key <= k)//yarr ehe tan chota ya same mil gya niklya
+            root=root->right;
+            else
+            {
+                suc=root;//mil gya vda bu t just vda chahida hai so left ty v jao means min vda mil ju
+                root=root->left;
+            }
+        }
+        
+    }
+    
+    void predecessor(Node* root, Node*&pre,int k)
+    {
+        while(root) //just chota
+        {
+            if(root->key>=k)//yar vda nhi chahida left ty jao BST dy and same v nhi chahida
+            root=root->left;
+            else
+            {
+                pre=root;//mil gay but pls just chot achahida so right ty jao ehe kafi jada chota na hovy
+                root=root->right;
+            }
+        }
+        
+    }
+    
+    void findPreSuc(Node* root, Node*& pre, Node*& suc, int key)
+    {
+        // Your code goes here
+        predecessor(root,pre,key);
+        successor(root,suc,key);
+    }
