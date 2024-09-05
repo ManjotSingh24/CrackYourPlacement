@@ -1,0 +1,31 @@
+//koi esa leaf node jisky baad mein koi bhi node attach nhi kr sakta
+  
+    bool dead(Node*root,int lower,int upper)
+    {  
+        //base case
+        if(!root)
+        return false;
+        
+        
+        if(root->left==NULL && root->right==NULL)//leaf node hai then dead end vali condition chk kro g
+        {
+        
+        if(root->data-lower==1 && upper-root->data==1)
+        return true; //means dead end hai
+        else
+        return false; //means not a dead end
+        }
+        
+        //kidron v agar dead end mil jy is karky or laya
+        dead(root->left,lower,root->data) || dead(root->right,root->data,upper);
+        
+    
+    }
+  
+  
+    bool isDeadEnd(Node *root)
+    {
+    
+        return dead(root,0,INT_MAX);
+        
+    }
