@@ -1,0 +1,32 @@
+class Solution {
+public:
+    int numTrees(int n) {
+        vector<int>dp(n+1); //kyonki dp[0] v store krna hai
+
+        if(n==1)
+        return n;
+
+        dp[0]=1;
+        dp[1]=1;
+        dp[2]=2;
+
+        for(int i=3;i<=n;i++)//i means jdo no. of elemts i hon tan kiny type dy bst bn skdy a ogho dp[i] ch store on gy
+        {
+            int no_of_BST=0;
+
+            for(int root=1;root<=i;root++) //jdo root 1 bnya tan kiny typ edy tree bny ya phir 2 ya phir upto 3 sarya nu add kardo g
+            {
+                int no_of_elemnts_on_left_of_root=root-1;
+                int no_of_elemnts_on_right_of_root=i-root;
+
+                int no_of_Different_Tree_on_left=dp[no_of_elemnts_on_left_of_root];// suppose [1,2,3,4,5,6] and 3 is root so left ch{1,2} right ch{4,5,6} dp[2]*dp[3]=2*5=10 subtree kly tan jdo 3 root bnya 
+                int no_of_Different_Tree_on_right=dp[no_of_elemnts_on_right_of_root];
+
+                no_of_BST=no_of_BST+ (no_of_Different_Tree_on_left*no_of_Different_Tree_on_right);
+            }
+            dp[i]=no_of_BST;
+
+        }
+        return dp[n];
+    }
+};
