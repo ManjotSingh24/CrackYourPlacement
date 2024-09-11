@@ -1,0 +1,89 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode() : val(0), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x) : val(x), left(nullptr), right(nullptr) {}
+ *     TreeNode(int x, TreeNode *left, TreeNode *right) : val(x), left(left), right(right) {}
+ * };
+ */
+class Solution {
+public:
+
+/*
+ 1. n=6 means ik vari node 1 root bnegi root 2 begi ... 6
+
+
+                              i==4
+            (start , i-1)               (i+1 , end)
+            B1,B2,B3,B4,B5,B6           B7,B8
+
+                so 
+                4                       4
+            B1      B7              B1      B8  -> har left ky best k apair har right ku bst sy 
+
+            for loop (left bst)
+            {
+                for loop (right bst)
+            }
+
+            MEMOIZATION KRNI --> MAP<pair<start,end>,vector<TreeNode*>>;
+
+            for n--> no. of bianry search tree -> n catalan no. --> 4pow(n)/npow(1.5)
+
+*/
+    map<pair<int,int>,vector<TreeNode*>>mp;
+
+    vector<TreeNode*> solve(int start,int end)
+    {
+
+
+        //base case
+        if(start>end)
+        return {NULL}; //vector of NULL
+
+        //single
+        if(start==end)
+        {
+            TreeNode* root=new TreeNode(start);
+            return mp[{start,end}]= {root};//end bado bhevein
+        }
+
+        if(mp.find({start,end})!=mp.end())
+        return mp[{start,end}];
+
+        //resulting vector
+        vector<TreeNode*> result;
+
+        //har ik nu root vkhana
+        for(int i=start;i<=end;i++)
+        {
+            vector<TreeNode*> left_bsts=solve(start,i-1);
+            vector<TreeNode*> right_bsts=solve(i+1,end);
+
+            for(TreeNode* leftty:left_bsts)
+            {
+                for(TreeNode* rightty:right_bsts)
+                {
+                    TreeNode* root= new TreeNode(i);
+                    root->left=leftty;
+                    root->right=rightty;
+
+                    // har binary tree jed av ban rea ohny resulting vector ch pandy jao
+
+                   result.push_back(root);
+
+                }
+            }
+        }
+
+        return mp[{start,end}]= result;
+    }
+
+
+    vector<TreeNode*> generateTrees(int n) {
+        return solve(1,n);
+    }
+};
