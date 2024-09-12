@@ -1,0 +1,116 @@
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+
+/*
+1. us node ton level wise traverse kardo --> parent val ,left child val, right child val
+2. map ch store kardy raho & parent info  tree ch kro traverse inorder
+3. ik non visited v rakho tan ki parent to child pher parent ty na chly jiye
+*/
+    //key(child) --> val(parent)
+    //parent[curr]=parent of curr
+    unordered_map<TreeNode*,TreeNode*>parent;// child-->parent
+
+    void inorder(TreeNode* root)
+    {
+        if(root==NULL)
+        return;
+
+        //left child
+        if(root->left!=NULL)
+        {
+            parent[root->left]=root;
+            inorder(root->left);
+        }
+
+        //right
+        if(root->right!=NULL)
+        {
+            parent[root->right]=root;
+            inorder(root->right);
+        }
+
+    }
+
+    void fun(TreeNode* target, int k,vector<int> &res)
+    {
+
+        // take visited
+        unordered_set<int> visited;
+
+        //BFS
+        queue<TreeNode*> q;
+
+        //push the root
+        q.push(target);
+        visited.insert(target->val);
+
+        while(!q.empty())
+        {
+            int n=q.size();
+
+            if(k==0)
+            break; //huny queue dy andar target ton k level dy sary elemnts haigy a
+
+            while(n--)
+            {
+                TreeNode* curr=q.front();
+                q.pop();
+
+                //left child
+                if(curr->left!=NULL && !visited.count(curr->left->val))//visited da count aya 0 means non visited hai
+                {
+                    q.push(curr->left);
+                    visited.insert(curr->left->val);
+                }
+
+                //right child
+                if(curr->right!=NULL && !visited.count(curr->right->val))
+                {
+                    q.push(curr->right);
+                    visited.insert(curr->right->val);
+                }
+
+                //parent // count true aya mena curr key hai eda matlb koi parent v hoega
+                if(parent.count(curr) &&  !visited.count(parent[curr]->val))
+                {
+                    q.push(parent[curr]);
+                    visited.insert(parent[curr]->val);
+                }
+
+            }
+            k--;
+
+        }
+
+        while(!q.empty())
+        {
+            TreeNode* node=q.front();
+            q.pop();
+            res.push_back(node->val);
+        }
+
+
+    }
+
+
+    vector<int> distanceK(TreeNode* root, TreeNode* target, int k) {
+        
+        inorder(root);
+
+        vector<int> res;
+
+        fun(target,k,res);
+
+        return res;
+
+    }
+};
